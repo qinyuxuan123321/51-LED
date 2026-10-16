@@ -1,0 +1,47 @@
+#include <reg51.h>
+
+sbit LED = P1^0;    //LED??
+sbit KEY = P3^2;    //??????
+
+unsigned char mode = 0;  //0=????,1=????
+
+void Delay_ms(unsigned int t)
+{
+	unsigned int i,j;
+	for(i = t; i>0; i--)
+		for(j = 110; j>0; j--);
+}
+
+//??????
+void KeyScan(void)
+{
+	if(KEY == 0)   //???????
+	{
+		Delay_ms(20);  //????
+		if(KEY == 0)
+		{
+			mode = !mode; //????:0?1,1?0
+			while(!KEY);  //??????,????
+		}
+	}
+}
+
+void main(void)
+{
+	while(1)
+	{
+		KeyScan(); //??????
+		
+		if(mode == 0) //????
+		{
+			LED = 0;
+			Delay_ms(800);
+			LED = 1;
+			Delay_ms(800);
+		}
+		else //????
+		{
+			LED = 0;
+		}
+	}
+}
